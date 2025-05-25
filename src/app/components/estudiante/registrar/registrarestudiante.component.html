@@ -1,44 +1,81 @@
 <div class="container mt-4">
-  <h2>Registrar Estudiante</h2>
-  <form [formGroup]="estudianteForm" (ngSubmit)="onSubmit()">
-    <div class="mb-3">
-      <label>ID Estudiante</label>
-      <input type="number" formControlName="idEstudiante" class="form-control">
+  <h2 class="mb-4 fw-bold">Crear Estudiante</h2>
+
+  <div class="card shadow-sm p-4">
+    <form [formGroup]="estudianteForm" (ngSubmit)="onSubmit()">
+      <div class="row">
+        <!-- Primer nombre -->
+        <div class="mb-3 col-md-6">
+          <label for="idEstudiante" class="form-label">ID Estudiante</label>
+          <input
+            type="number"
+            id="idEstudiante"
+            formControlName="idEstudiante"
+            class="form-control"
+            placeholder="ID del estudiante"
+          />
+        </div>
+
+        <!-- Código estudiante -->
+        <div class="mb-3 col-md-6">
+          <label for="codigoEstudiante" class="form-label">Código Estudiante</label>
+          <input
+            type="text"
+            id="codigoEstudiante"
+            formControlName="codigoEstudiante"
+            class="form-control"
+            placeholder="Código del estudiante"
+          />
+        </div>
+
+        <!-- ID Usuario -->
+        <div class="mb-3 col-md-6">
+          <label for="idUsuario" class="form-label">ID Usuario</label>
+          <select
+            id="idUsuario"
+            formControlName="idUsuario"
+            class="form-control"
+          >
+            <option [ngValue]="null" disabled selected>
+              -- Seleccione una opción --
+            </option>
+            <option *ngFor="let option of usuarios" [ngValue]="option.idUsuario">
+              {{ option.primerNombre }}
+            </option>
+          </select>
+        </div>
+
+        <!-- ID Programa -->
+        <div class="mb-3 col-md-6">
+          <label for="idPrograma" class="form-label">ID Programa</label>
+          <select
+            id="idPrograma"
+            formControlName="idPrograma"
+            class="form-control"
+          >
+            <option [ngValue]="null" disabled selected>
+              -- Seleccione una opción --
+            </option>
+            <option *ngFor="let option of programas" [ngValue]="option.idPrograma">
+              {{ option.nombre }}
+            </option>
+          </select>
+        </div>
+      </div>
+
+      <button
+        type="submit"
+        class="btn btn-primary mt-2"
+        [disabled]="estudianteForm.invalid"
+      >
+        Registrar
+      </button>
+    </form>
+
+    <div class="mt-3 alert alert-info" *ngIf="mensaje">
+      {{ mensaje }}
     </div>
-
-    <div class="mb-3">
-      <label>Código Estudiante</label>
-      <input type="text" formControlName="codigoEstudiante" class="form-control">
-    </div>
-
-    <div class="mb-3">
-      <label>ID Usuario</label>
-      <select formControlName="idUsuario" class="form-control">
-  <option [ngValue]="null" disabled selected>-- Seleccione una opción --</option>
-  <option *ngFor="let option of usuarios" [ngValue]="option.idUsuario">
-    {{ option.primerNombre }}
-  </option>
-</select>
-
-    </div>
-    <div class="mb-3">
-      <label>ID Programa</label>
-      <select formControlName="idPrograma" class="form-control">
-  <option [ngValue]="null" disabled selected>-- Seleccione una opción --</option>
-  <option *ngFor="let option of programas" [ngValue]="option.idPrograma">
-    {{ option.nombre }}
-  </option>
-</select>
-
-    </div>
-
-    <button type="submit" class="btn btn-primary" [disabled]="estudianteForm.invalid">
-      Registrar
-    </button>
-  </form>
-
-  <div class="mt-3 alert alert-info" *ngIf="mensaje">
-    {{ mensaje }}
   </div>
 </div>
+
 

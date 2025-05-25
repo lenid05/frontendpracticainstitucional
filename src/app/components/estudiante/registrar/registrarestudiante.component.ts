@@ -4,6 +4,7 @@ import { HttpClient, } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { UsuariosService } from '../../../services/usuario.service';
 import { ProgramasService } from '../../../services/programa.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-estudiante-registro',
@@ -24,7 +25,8 @@ export class EstudianteRegistroComponent implements OnInit  {
       idEstudiante: ['', Validators.required],
       codigoEstudiante: ['', Validators.required],
       idUsuario: ['', Validators.required],
-      idPrograma: ['', Validators.required]
+      idPrograma: ['', Validators.required],
+      
     });
   }
 
