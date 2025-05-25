@@ -1,0 +1,44 @@
+<div class="container mt-4">
+  <h2>Registrar Estudiante</h2>
+  <form [formGroup]="estudianteForm" (ngSubmit)="onSubmit()">
+    <div class="mb-3">
+      <label>ID Estudiante</label>
+      <input type="number" formControlName="idEstudiante" class="form-control">
+    </div>
+
+    <div class="mb-3">
+      <label>Código Estudiante</label>
+      <input type="text" formControlName="codigoEstudiante" class="form-control">
+    </div>
+
+    <div class="mb-3">
+      <label>ID Usuario</label>
+      <select formControlName="idUsuario" class="form-control">
+  <option [ngValue]="null" disabled selected>-- Seleccione una opción --</option>
+  <option *ngFor="let option of usuarios" [ngValue]="option.idUsuario">
+    {{ option.primerNombre }}
+  </option>
+</select>
+
+    </div>
+    <div class="mb-3">
+      <label>ID Programa</label>
+      <select formControlName="idPrograma" class="form-control">
+  <option [ngValue]="null" disabled selected>-- Seleccione una opción --</option>
+  <option *ngFor="let option of programas" [ngValue]="option.idPrograma">
+    {{ option.nombre }}
+  </option>
+</select>
+
+    </div>
+
+    <button type="submit" class="btn btn-primary" [disabled]="estudianteForm.invalid">
+      Registrar
+    </button>
+  </form>
+
+  <div class="mt-3 alert alert-info" *ngIf="mensaje">
+    {{ mensaje }}
+  </div>
+</div>
+
