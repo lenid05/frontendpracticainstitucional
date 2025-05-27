@@ -1,1 +1,47 @@
-<p>listar works!</p>
+<div class="container">
+  <h2>Lista de Ofertas de Práctica</h2>
+  
+<button routerLink="/ofertaspracticas/registrar">Nueva Oferta</button>
+
+  <!-- Loading -->
+  <div *ngIf="isLoading">
+    Cargando ofertas...
+  </div>
+
+  <!-- Error -->
+  <div *ngIf="errorMessage && !isLoading" style="color: red;">
+    {{ errorMessage }}
+    <button (click)="cargarOfertas()">Reintentar</button>
+  </div>
+
+  <!-- Tabla -->
+  <table *ngIf="!isLoading && !errorMessage">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Título</th>
+        <th>Descripción</th>
+        <th>Fecha Publicación</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let oferta of ofertas">
+        <td>{{ oferta.idOfertaPractica }}</td>
+        <td>{{ oferta.titulo }}</td>
+        <td>{{ oferta.descripcion | slice:0:50 }}{{ oferta.descripcion.length > 50 ? '...' : '' }}</td>
+        <td>{{ formatearFecha(oferta.fechaPublicacion) }}</td>
+        <td>
+          <button (click)="editarOferta(oferta)">Editar</button>
+          <button (click)="eliminarOferta(oferta.idOfertaPractica)">Eliminar</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- Sin resultados -->
+  <div *ngIf="ofertas.length === 0 && !isLoading" style="text-align: center;">
+    <p>No hay ofertas registradas</p>
+    <button routerLink="/ofertas/registrar">Registrar Primera Oferta</button>
+  </div>
+</div>

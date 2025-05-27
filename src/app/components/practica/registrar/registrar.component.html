@@ -1,1 +1,96 @@
-<p>registrar works!</p>
+<div class="container">
+  <h2>Registrar Nueva Práctica</h2>
+  
+  <form [formGroup]="practicaForm" (ngSubmit)="onSubmit()">
+    <!-- ID Práctica -->
+    <div>
+      <label>ID Práctica:</label>
+      <input type="number" formControlName="idPractica">
+      <span *ngIf="isFieldInvalid('idPractica')" style="color: red;">
+        Campo requerido
+      </span>
+    </div>
+
+    <!-- ID Estudiante -->
+    <div>
+      <label>ID Estudiante:</label>
+      <input type="number" formControlName="idEstudiante">
+      <span *ngIf="isFieldInvalid('idEstudiante')" style="color: red;">
+        Campo requerido
+      </span>
+    </div>
+
+    <!-- ID Docente -->
+    <div>
+      <label>ID Docente:</label>
+      <input type="number" formControlName="idDocente">
+      <span *ngIf="isFieldInvalid('idDocente')" style="color: red;">
+        Campo requerido
+      </span>
+    </div>
+
+    <!-- Oferta de Práctica -->
+    <div>
+      <label>Oferta de Práctica:</label>
+      <select formControlName="idOfertaPractica">
+        <option value="">Seleccione una oferta</option>
+        <option *ngFor="let oferta of ofertas" [value]="oferta.idOfertaPractica">
+          {{oferta.titulo}}
+        </option>
+      </select>
+      <span *ngIf="isFieldInvalid('idOfertaPractica')" style="color: red;">
+        Campo requerido
+      </span>
+    </div>
+
+    <!-- Fecha Inicio -->
+    <div>
+      <label>Fecha Inicio:</label>
+      <input type="datetime-local" formControlName="fechaInicio">
+      <span *ngIf="isFieldInvalid('fechaInicio')" style="color: red;">
+        Campo requerido
+      </span>
+    </div>
+
+    <!-- Fecha Fin -->
+    <div>
+      <label>Fecha Fin:</label>
+      <input type="datetime-local" formControlName="fechaFin">
+      <span *ngIf="isFieldInvalid('fechaFin')" style="color: red;">
+        Campo requerido
+      </span>
+    </div>
+
+    <!-- Estado -->
+    <div>
+      <label>Estado:</label>
+      <select formControlName="estado">
+        <option value="">Seleccione un estado</option>
+        <option value="Activa">Activa</option>
+        <option value="Finalizada">Finalizada</option>
+        <option value="Cancelada">Cancelada</option>
+        <option value="En Proceso">En Proceso</option>
+      </select>
+      <span *ngIf="isFieldInvalid('estado')" style="color: red;">
+        Campo requerido
+      </span>
+    </div>
+
+    <!-- Botones -->
+    <div>
+      <button type="submit" [disabled]="practicaForm.invalid || isLoading">
+        {{ isLoading ? 'Registrando...' : 'Registrar' }}
+      </button>
+      <button type="button" (click)="resetForm()">Limpiar</button>
+      <button type="button" routerLink="/practicas/listar">Cancelar</button>
+    </div>
+  </form>
+
+  <!-- Mensajes -->
+  <div *ngIf="showSuccessMessage" style="color: green; margin-top: 10px;">
+    ✓ Práctica registrada exitosamente
+  </div>
+  <div *ngIf="errorMessage" style="color: red; margin-top: 10px;">
+    ✗ {{ errorMessage }}
+  </div>
+</div>

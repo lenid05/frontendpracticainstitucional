@@ -1,1 +1,76 @@
-<p>actualizar works!</p>
+<div class="container">
+  <h2>Actualizar Oferta #{{ ofertaId }}</h2>
+
+  <!-- Loading -->
+  <div *ngIf="isLoadingOferta">
+    Cargando datos de la oferta...
+  </div>
+
+  <!-- Error -->
+  <div *ngIf="errorCarga" style="color: red;">
+    {{ errorCarga }}
+    <button (click)="cargarOferta()">Reintentar</button>
+  </div>
+
+  <!-- Formulario -->
+  <form *ngIf="!isLoadingOferta && !errorCarga" [formGroup]="ofertaForm" (ngSubmit)="onSubmit()">
+    <!-- ID (No editable) -->
+    <div>
+      <label>ID Oferta:</label>
+      <input type="number" formControlName="idOfertaPractica" readonly style="background-color: #f0f0f0;">
+    </div>
+
+    <!-- Título -->
+    <div>
+      <label>Título:</label>
+      <input type="text" formControlName="titulo">
+      <span *ngIf="isFieldInvalid('titulo')" style="color: red;">
+        Campo requerido
+      </span>
+    </div>
+
+    <!-- Descripción -->
+    <div>
+      <label>Descripción:</label>
+      <textarea formControlName="descripcion" rows="4"></textarea>
+      <span *ngIf="isFieldInvalid('descripcion')" style="color: red;">
+        Campo requerido
+      </span>
+    </div>
+
+    <!-- Fecha Publicación -->
+    <div>
+      <label>Fecha de Publicación:</label>
+      <input type="datetime-local" formControlName="fechaPublicacion">
+      <span *ngIf="isFieldInvalid('fechaPublicacion')" style="color: red;">
+        Campo requerido
+      </span>
+    </div>
+
+    <!-- Botones -->
+    <div>
+      <button 
+        type="submit" 
+        [disabled]="ofertaForm.invalid || isLoading || !hasFormChanged()"
+        style="background-color: #ff9800; color: white;">
+        {{ isLoading ? 'Actualizando...' : 'Actualizar' }}
+      </button>
+      <button type="button" (click)="resetForm()">Restablecer</button>
+      <button type="button" routerLink="/ofertaspracticas/listar">Cancelar</button>
+    </div>
+  </form>
+
+  <!-- Indicador de cambios -->
+  <div *ngIf="hasFormChanged() && !showSuccessMessage" style="color: blue; margin-top: 10px;">
+    ℹ Has realizado cambios en el formulario
+  </div>
+
+  <!-- Mensajes -->
+  <div *ngIf="showSuccessMessage" style="color: green; margin-top: 10px;">
+    ✓ Oferta actualizada exitosamente
+  </div>
+  <div *ngIf="errorMessage" style="color: red; margin-top: 10px;">
+    ✗ {{ errorMessage }}
+  </div>
+</div>
+
