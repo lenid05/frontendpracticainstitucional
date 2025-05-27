@@ -1,1 +1,58 @@
-<p>eliminar works!</p>
+<div class="container">
+  <h2>Eliminar Oferta #{{ ofertaId }}</h2>
+
+  <!-- Loading -->
+  <div *ngIf="isLoadingOferta">
+    Cargando datos de la oferta...
+  </div>
+
+  <!-- Error -->
+  <div *ngIf="errorCarga" style="color: red;">
+    {{ errorCarga }}
+    <button (click)="cargarOferta()">Reintentar</button>
+  </div>
+
+  <!-- Confirmación -->
+  <div *ngIf="!isLoadingOferta && !errorCarga && oferta">
+    <div style="background-color: #ffffcc; padding: 10px; margin-bottom: 20px;">
+      <strong>¡Atención!</strong> Esta acción no se puede deshacer.
+    </div>
+
+    <!-- Detalles de la oferta -->
+    <div style="background-color: #f5f5f5; padding: 15px; margin-bottom: 20px;">
+      <h3>Información de la Oferta</h3>
+      <p><strong>ID:</strong> {{ oferta.idOfertaPractica }}</p>
+      <p><strong>Título:</strong> {{ oferta.titulo }}</p>
+      <p><strong>Descripción:</strong> {{ oferta.descripcion }}</p>
+      <p><strong>Fecha Publicación:</strong> {{ formatearFecha(oferta.fechaPublicacion) }}</p>
+    </div>
+
+    <!-- Checkbox de confirmación -->
+    <div>
+      <input type="checkbox" id="confirmar" [(ngModel)]="confirmacionEliminacion">
+      <label for="confirmar">Confirmo que deseo eliminar esta oferta</label>
+    </div>
+
+    <!-- Botones -->
+    <div style="margin-top: 20px;">
+      <button 
+        [disabled]="!confirmacionEliminacion || isLoading"
+        (click)="eliminarOferta()"
+        style="background-color: #f44336; color: white;">
+        {{ isLoading ? 'Eliminando...' : 'Eliminar' }}
+      </button>
+      <button routerLink="/ofertas/listar">Cancelar</button>
+    </div>
+  </div>
+
+  <!-- Mensaje de éxito -->
+  <div *ngIf="showSuccessMessage" style="color: green;">
+    ✓ Oferta eliminada exitosamente
+    <button routerLink="/ofertas/listar">Volver al Listado</button>
+  </div>
+
+  <!-- Mensaje de error -->
+  <div *ngIf="errorMessage" style="color: red;">
+    ✗ {{ errorMessage }}
+  </div>
+</div>
