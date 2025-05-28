@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ActualizarComponent } from './actualizar.component';
+import { ActualizarComponent } from './actualizarestudiante.component';
 
 describe('ActualizarComponent', () => {
   let component: ActualizarComponent;

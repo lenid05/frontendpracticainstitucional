@@ -7,10 +7,11 @@ import { CommonModule } from '@angular/common';
 import { forkJoin } from 'rxjs';
 import { RouterLink } from '@angular/router';
 
+
 @Component({
   selector: 'app-listarestudiante',
   templateUrl: './listarestudiante.component.html',
-  imports: [CommonModule, RouterLink],
+  imports: [CommonModule, RouterLink ],
   styleUrls: ['./listarestudiante.component.scss']
 })
 export class ListarestudianteComponent implements OnInit {
@@ -199,14 +200,6 @@ export class ListarestudianteComponent implements OnInit {
     // Ejemplo: this.router.navigate(['/estudiantes/nuevo']);
   }
 
-  /**
-   * Edita un estudiante existente
-   */
-  editarEstudiante(estudiante: any): void {
-    console.log('Editar estudiante:', estudiante);
-    // Implementar navegación o modal para editar
-    // Ejemplo: this.router.navigate(['/estudiantes/editar', estudiante.idEstudiante]);
-  }
 
   /**
    * Elimina un estudiante
@@ -215,8 +208,8 @@ export class ListarestudianteComponent implements OnInit {
     if (confirm(`¿Estás seguro de que deseas eliminar al estudiante ${this.obtenerNombreUsuario(estudiante.idUsuario)}?`)) {
       this.estudianteService.delete(estudiante.idEstudiante).subscribe({
         next: () => {
-          console.log('Estudiante eliminado exitosamente');
-          this.cargarEstudiantes(); // Recargar la lista
+        alert('Estudiante eliminado exitosamente');
+        this.cargarEstudiantes(); // Recargar la lista
         },
         error: (error) => {
           console.error('Error al eliminar estudiante:', error);

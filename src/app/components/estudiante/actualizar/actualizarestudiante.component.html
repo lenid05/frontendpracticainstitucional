@@ -1,0 +1,159 @@
+<div class="container-fluid p-4">
+  <!-- Header -->
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+      <h2 class="fw-bold text-dark mb-0">Actualizar Estudiante</h2>
+      <p class="text-muted mb-0">Modifica la información del estudiante seleccionado</p>
+    </div>
+    <button 
+      class="btn btn-outline-secondary" 
+      [routerLink]="['/listarestudiante']"
+      title="Volver a la lista">
+      <i class="fas fa-arrow-left me-2"></i>
+      Volver
+    </button>
+  </div>
+
+  <!-- Estado de error -->
+  @if (error()) {
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+      <i class="fas fa-exclamation-triangle me-2"></i>
+      {{ error() }}
+      <button type="button" class="btn-close" (click)="error.set('')"></button>
+    </div>
+  }
+
+  <!-- Estado de éxito -->
+  @if (mensaje()) {
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+      <i class="fas fa-check-circle me-2"></i>
+      {{ mensaje() }}
+      <button type="button" class="btn-close" (click)="mensaje.set('')"></button>
+    </div>
+  }
+
+  <!-- Estado de carga -->
+  @if (cargando()) {
+    <div class="card shadow-sm">
+      <div class="card-body text-center py-5">
+        <div class="spinner-border text-primary mb-3" role="status">
+          <span class="visually-hidden">Cargando...</span>
+        </div>
+        <h5 class="text-muted">Cargando información del estudiante...</h5>
+        <p class="text-muted mb-0">Por favor espera un momento</p>
+      </div>
+    </div>
+  } @else {
+    <!-- Formulario de actualización -->
+    <div class="card shadow-sm">
+      <div class="card-header" style="background: linear-gradient(45deg, #f8f9fa, #e9ecef);">
+        <h5 class="mb-0 fw-semibold text-dark">
+          <i class="fas fa-user-edit me-2"></i>
+          Información del Estudiante
+        </h5>
+      </div>
+      <div class="card-body p-4">
+        <form [formGroup]="estudianteForm" (ngSubmit)="onSubmit()">
+          <div class="row">
+            <!-- ID Estudiante (solo lectura) -->
+            <div class="mb-3 col-md-6">
+              <label for="idEstudiante" class="form-label fw-medium">
+                <i class="fas fa-id-badge me-1 text-primary"></i>
+                ID Estudiante
+              </label>
+              <input
+                type="number"
+                id="idEstudiante"
+                formControlName="idEstudiante"
+                class="form-control"
+                placeholder="ID del estudiante"
+                readonly
+                style="background-color: #f8f9fa; border: 2px solid #e9ecef;"
+              />
+              <small class="text-muted">Este campo no se puede modificar</small>
+            </div>
+
+            <!-- Código estudiante -->
+            <div class="mb-3 col-md-6">
+              <label for="codigoEstudiante" class="form-label fw-medium">
+                <i class="fas fa-barcode me-1 text-primary"></i>
+                Código Estudiante *
+              </label>
+              <input
+                type="text"
+                id="codigoEstudiante"
+                formControlName="codigoEstudiante"
+                class="form-control"
+                placeholder="Ingrese el código del estudiante"
+                style="border: 2px solid #e9ecef;"
+                [class.is-invalid]="estudianteForm.get('codigoEstudiante')?.invalid && estudianteForm.get('codigoEstudiante')?.touched"
+              />
+              @if (estudianteForm.get('codigoEstudiante')?.invalid && estudianteForm.get('codigoEstudiante')?.touched) {
+                <div class="invalid-feedback">
+                  <i class="fas fa-exclamation-circle me-1"></i>
+                  El código del estudiante es requerido
+                </div>
+              }
+            </div>
+
+            <!-- ID Programa -->
+            <div class="mb-3 col-md-6">
+              <label for="idPrograma" class="form-label fw-medium">
+                <i class="fas fa-graduation-cap me-1 text-primary"></i>
+                Programa Académico *
+              </label>
+              <select
+                id="idPrograma"
+                formControlName="idPrograma"
+                class="form-select"
+                style="border: 2px solid #e9ecef;"
+                [class.is-invalid]="estudianteForm.get('idPrograma')?.invalid && estudianteForm.get('idPrograma')?.touched"
+              >
+                <option [ngValue]="null" disabled>
+                  -- Seleccione un programa --
+                </option>
+                <option *ngFor="let programa of programas" [ngValue]="programa.idPrograma">
+                  {{ programa.nombre }}
+                </option>
+              </select>
+              @if (estudianteForm.get('idPrograma')?.invalid && estudianteForm.get('idPrograma')?.touched) {
+                <div class="invalid-feedback">
+                  <i class="fas fa-exclamation-circle me-1"></i>
+                  Debe seleccionar un programa académico
+                </div>
+              }
+            </div>
+          </div>
+
+          <!-- Botones de acción -->
+          <div class="d-flex justify-content-end gap-3 mt-4 pt-3 border-top">
+            <button
+              type="button"
+              class="btn btn-outline-secondary px-4"
+              [routerLink]="['/listarestudiante']"
+            >
+              <i class="fas fa-times me-2"></i>
+              Cancelar
+            </button>
+            <button
+              type="submit"
+              class="btn btn-primary px-4"
+              [disabled]="estudianteForm.invalid || actualizando()"
+              style="background: linear-gradient(45deg, #007bff, #0056b3); border: 2px solid #007bff;"
+            >
+              @if (actualizando()) {
+                <span class="spinner-border spinner-border-sm me-2" role="status">
+                  <span class="visually-hidden">Actualizando...</span>
+                </span>
+                Actualizando...
+              } @else {
+                <i class="fas fa-save me-2"></i>
+                Actualizar Estudiante
+              }
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  }
+</div>

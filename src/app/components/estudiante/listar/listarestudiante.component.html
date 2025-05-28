@@ -2,185 +2,173 @@
   <!-- Header -->
   <div class="d-flex justify-content-between align-items-center mb-4">
     <h2 class="fw-bold text-dark mb-0">Gestionar Estudiantes</h2>
-    
+
   </div>
 
   <!-- Estado de error -->
   @if (error()) {
-    <div class="alert alert-danger alert-dismissible fade show" role="alert">
-      <i class="fas fa-exclamation-triangle me-2"></i>
-      {{ error() }}
-      <button type="button" class="btn-close" (click)="error.set('')"></button>
-    </div>
+  <div class="alert alert-danger alert-dismissible fade show" role="alert">
+    <i class="fas fa-exclamation-triangle me-2"></i>
+    {{ error() }}
+    <button type="button" class="btn-close" (click)="error.set('')"></button>
+  </div>
   }
 
   <!-- Estado de carga -->
   @if (cargando()) {
-    <div class="card shadow-sm">
-      <div class="card-body text-center py-5">
-        <div class="spinner-border text-primary mb-3" role="status">
-          <span class="visually-hidden">Cargando...</span>
-        </div>
-        <h5 class="text-muted">Cargando estudiantes...</h5>
-        <p class="text-muted mb-0">Por favor espera un momento</p>
+  <div class="card shadow-sm">
+    <div class="card-body text-center py-5">
+      <div class="spinner-border text-primary mb-3" role="status">
+        <span class="visually-hidden">Cargando...</span>
       </div>
+      <h5 class="text-muted">Cargando estudiantes...</h5>
+      <p class="text-muted mb-0">Por favor espera un momento</p>
     </div>
+  </div>
   } @else {
-    <!-- Barra de búsqueda y botón agregar -->
-    <div class="card shadow-sm mb-4">
-      <div class="card-body">
-        <div class="row align-items-center">
-          <div class="col-md-8">
-            <div class="input-group">
-              <input 
-                type="text" 
-                class="form-control form-control-lg" 
-                placeholder="Buscar por nombre, código, programa o correo..."
-                [value]="terminoBusqueda()"
-                (input)="onBusquedaChange($any($event.target).value)"
-                style="border-radius: 25px 0 0 25px; border: 2px solid #e9ecef;">
-              <button 
-                class="btn btn-primary btn-lg px-4" 
-                type="button"
-                (click)="buscarEstudiante()"
-                style="border-radius: 0 25px 25px 0; background: linear-gradient(45deg, #007bff, #0056b3); border: 2px solid #007bff;">
-                <i class="fas fa-search me-1"></i>
-                Buscar
-              </button>
-            </div>
-          </div>
-          <div class="col-md-4 text-end">
-            <a 
-              [routerLink]="['/', 'estudiante']" 
-              class="btn btn-success btn-lg px-4 text-decoration-none" 
-              style="border-radius: 25px; background: linear-gradient(45deg, #007bff, #0056b3); border: 2px solid #007bff;">
-              <i class="fas fa-plus me-2"></i>
-              + Estudiante Nuevo
-            </a>
+  <!-- Barra de búsqueda y botón agregar -->
+  <div class="card shadow-sm mb-4">
+    <div class="card-body">
+      <div class="row align-items-center">
+        <div class="col-md-8">
+          <div class="input-group">
+            <input type="text" class="form-control form-control-lg"
+              placeholder="Buscar por nombre, código, programa o correo..." [value]="terminoBusqueda()"
+              (input)="onBusquedaChange($any($event.target).value)"
+              style="border-radius: 25px 0 0 25px; border: 2px solid #e9ecef;">
+            <button class="btn btn-primary btn-lg px-4" type="button" (click)="buscarEstudiante()"
+              style="border-radius: 0 25px 25px 0; background: linear-gradient(45deg, #007bff, #0056b3); border: 2px solid #007bff;">
+              <i class="fas fa-search me-1"></i>
+              Buscar
+            </button>
           </div>
         </div>
-        
-        <!-- Información de búsqueda y contadores -->
-        <div class="row mt-3">
-          <div class="col-md-8">
-            @if (terminoBusqueda()) {
-              <button 
-                class="btn btn-outline-secondary btn-sm me-2" 
-                (click)="limpiarBusqueda()">
-                <i class="fas fa-times me-1"></i>
-                Limpiar búsqueda
-              </button>
-              <span class="text-muted">
-                Mostrando {{ totalFiltrados }} de {{ totalEstudiantes }} estudiantes
-              </span>
-            } @else {
-              <span class="text-muted">
-                Total: {{ totalEstudiantes }} estudiantes registrados
-              </span>
-            }
-          </div>
+        <div class="col-md-4 text-end">
+          <a [routerLink]="['/', 'estudiante']" class="btn btn-success btn-lg px-4 text-decoration-none"
+            style="border-radius: 25px; background: linear-gradient(45deg, #007bff, #0056b3); border: 2px solid #007bff;">
+            <i class="fas fa-plus me-2"></i>
+            Estudiante Nuevo
+          </a>
         </div>
       </div>
-    </div>
 
-    <!-- Tabla de estudiantes -->
-    <div class="card shadow-sm">
-      <div class="card-body p-0">
-        @if (estudiantesFiltrados().length > 0) {
-          <div class="table-responsive">
-            <table class="table table-hover align-middle mb-0">
-              <thead style="background: linear-gradient(45deg, #f8f9fa, #e9ecef);">
-                <tr>
-                  <th class="px-4 py-3 fw-semibold text-dark">ID</th>
-                  <th class="px-4 py-3 fw-semibold text-dark">Código</th>
-                  <th class="px-4 py-3 fw-semibold text-dark">Estudiante</th>
-                  <th class="px-4 py-3 fw-semibold text-dark">Programa</th>
-                  <th class="px-4 py-3 fw-semibold text-dark">Correo</th>
-                  <th class="px-4 py-3 fw-semibold text-dark text-center">Acciones</th>
-                </tr>
-              </thead>
-              <tbody>
-                @for (estudiante of estudiantesFiltrados(); track estudiante.idEstudiante) {
-                  <tr class="border-bottom" style="transition: all 0.2s ease;">
-                    <td class="px-4 py-3">
-                      <span class="badge bg-primary bg-opacity-10 text-primary px-3 py-2 rounded-pill">
-                        {{ estudiante.idEstudiante }}
-                      </span>
-                    </td>
-                    <td class="px-4 py-3">
-                      <strong class="text-dark">{{ estudiante.codigoEstudiante }}</strong>
-                    </td>
-                    <td class="px-4 py-3">
-                      <div class="d-flex align-items-center">
-                        <div class="avatar-circle me-3">
-                          {{ obtenerIniciales(estudiante.idUsuario) }}
-                        </div>
-                        <div>
-                          <div class="fw-medium">{{ obtenerNombreUsuario(estudiante.idUsuario) }}</div>
-                          <small class="text-muted">ID Usuario: {{ estudiante.idUsuario }}</small>
-                        </div>
-                      </div>
-                    </td>
-                    <td class="px-4 py-3">
-                      <span class="badge bg-info bg-opacity-10 text-info px-3 py-2 rounded-pill">
-                        {{ obtenerNombrePrograma(estudiante.idPrograma) }}
-                      </span>
-                    </td>
-                    <td class="px-4 py-3">
-                      <a 
-                        href="mailto:{{ obtenerCorreo(estudiante.idUsuario) }}" 
-                        class="text-decoration-none text-primary"
-                        title="Enviar correo">
-                        {{ obtenerCorreo(estudiante.idUsuario) }}
-                      </a>
-                    </td>
-                    <td class="px-4 py-3 text-center">
-                      <div class="btn-group btn-group-sm" role="group">
-                        <button 
-                          class="btn btn-outline-primary" 
-                          (click)="editarEstudiante(estudiante)"
-                          title="Editar estudiante">
-                          <i class="fas fa-edit"></i>
-                        </button>
-                        <button 
-                          class="btn btn-outline-danger" 
-                          (click)="eliminarEstudiante(estudiante)"
-                          title="Eliminar estudiante">
-                          <i class="fas fa-trash"></i>
-                        </button>
-                      </div>
-                    </td>
-                  </tr>
-                }
-              </tbody>
-            </table>
-          </div>
-        } @else {
-          <!-- Mensajes cuando no hay resultados -->
+      <!-- Información de búsqueda y contadores -->
+      <div class="row mt-3">
+        <div class="col-md-8">
           @if (terminoBusqueda()) {
-            <div class="text-center py-5">
-              <i class="fas fa-search fa-3x text-muted mb-3"></i>
-              <h5 class="text-muted">No se encontraron estudiantes</h5>
-              <p class="text-muted">
-                No hay resultados para "<strong>{{ terminoBusqueda() }}</strong>"
-              </p>
-              <button class="btn btn-primary" (click)="limpiarBusqueda()">
-                Ver todos los estudiantes
-              </button>
-            </div>
-          } @else if (totalEstudiantes === 0) {
-            <div class="text-center py-5">
-              <i class="fas fa-users fa-3x text-muted mb-3"></i>
-              <h5 class="text-muted">No hay estudiantes registrados</h5>
-              <p class="text-muted">Comienza agregando tu primer estudiante</p>
-              <button class="btn btn-success btn-lg" (click)="agregarNuevoEstudiante()">
-                <i class="fas fa-plus me-2"></i>
-                Agregar Primer Estudiante
-              </button>
-            </div>
+          <button class="btn btn-outline-secondary btn-sm me-2" (click)="limpiarBusqueda()">
+            <i class="fas fa-times me-1"></i>
+            Limpiar búsqueda
+          </button>
+          <span class="text-muted">
+            Mostrando {{ totalFiltrados }} de {{ totalEstudiantes }} estudiantes
+          </span>
+          } @else {
+          <span class="text-muted">
+            Total: {{ totalEstudiantes }} estudiantes registrados
+          </span>
           }
-        }
+        </div>
       </div>
     </div>
+  </div>
+
+  <!-- Tabla de estudiantes -->
+  <div class="card shadow-sm">
+    <div class="card-body p-0">
+      @if (estudiantesFiltrados().length > 0) {
+      <div class="table-responsive">
+        <table class="table table-hover align-middle mb-0">
+          <thead style="background: linear-gradient(45deg, #f8f9fa, #e9ecef);">
+            <tr>
+              <th class="px-4 py-3 fw-semibold text-dark">ID</th>
+              <th class="px-4 py-3 fw-semibold text-dark">Código</th>
+              <th class="px-4 py-3 fw-semibold text-dark">Estudiante</th>
+              <th class="px-4 py-3 fw-semibold text-dark">Programa</th>
+              <th class="px-4 py-3 fw-semibold text-dark">Correo</th>
+              <th class="px-4 py-3 fw-semibold text-dark text-center">Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (estudiante of estudiantesFiltrados(); track estudiante.idEstudiante) {
+            <tr class="border-bottom" style="transition: all 0.2s ease;">
+              <td class="px-4 py-3">
+                <span class="badge bg-primary bg-opacity-10 text-primary px-3 py-2 rounded-pill">
+                  {{ estudiante.idEstudiante }}
+                </span>
+              </td>
+              <td class="px-4 py-3">
+                <strong class="text-dark">{{ estudiante.codigoEstudiante }}</strong>
+              </td>
+              <td class="px-4 py-3">
+                <div class="d-flex align-items-center">
+                  <div class="avatar-circle me-3">
+                    {{ obtenerIniciales(estudiante.idUsuario) }}
+                  </div>
+                  <div>
+                    <div class="fw-medium">{{ obtenerNombreUsuario(estudiante.idUsuario) }}</div>
+                    <small class="text-muted">ID Usuario: {{ estudiante.idUsuario }}</small>
+                  </div>
+                </div>
+              </td>
+              <td class="px-4 py-3">
+                <span class="badge bg-info bg-opacity-10 text-info px-3 py-2 rounded-pill">
+                  {{ obtenerNombrePrograma(estudiante.idPrograma) }}
+                </span>
+              </td>
+              <td class="px-4 py-3">
+                <a href="mailto:{{ obtenerCorreo(estudiante.idUsuario) }}" class="text-decoration-none text-primary"
+                  title="Enviar correo">
+                  {{ obtenerCorreo(estudiante.idUsuario) }}
+                </a>
+              </td>
+              <td class="px-4 py-3 text-center">
+                <div class="btn-group btn-group-sm" role="group">
+                  <a class="btn btn-outline-primary"
+                    [routerLink]="['/', 'actualizar-estudiante', estudiante.idEstudiante]">
+                    <i class="fa-solid fa-pen-to-square"></i>
+                  </a>
+
+
+                  <!-- Botón eliminar -->
+                  <button class="btn btn-outline-danger" (click)="eliminarEstudiante(estudiante)"
+                    title="Eliminar estudiante">
+                    <i class="fa-solid fa-trash"></i>
+                  </button>
+                </div>
+              </td>
+
+            </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+      } @else {
+      <!-- Mensajes cuando no hay resultados -->
+      @if (terminoBusqueda()) {
+      <div class="text-center py-5">
+        <i class="fas fa-search fa-3x text-muted mb-3"></i>
+        <h5 class="text-muted">No se encontraron estudiantes</h5>
+        <p class="text-muted">
+          No hay resultados para "<strong>{{ terminoBusqueda() }}</strong>"
+        </p>
+        <button class="btn btn-primary" (click)="limpiarBusqueda()">
+          Ver todos los estudiantes
+        </button>
+      </div>
+      } @else if (totalEstudiantes === 0) {
+      <div class="text-center py-5">
+        <i class="fas fa-users fa-3x text-muted mb-3"></i>
+        <h5 class="text-muted">No hay estudiantes registrados</h5>
+        <p class="text-muted">Comienza agregando tu primer estudiante</p>
+        <button class="btn btn-success btn-lg" (click)="agregarNuevoEstudiante()">
+          <i class="fas fa-plus me-2"></i>
+          Agregar Primer Estudiante
+        </button>
+      </div>
+      }
+      }
+    </div>
+  </div>
   }
 </div>
