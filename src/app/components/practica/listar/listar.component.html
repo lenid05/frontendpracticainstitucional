@@ -1,1 +1,55 @@
-<p>listar works!</p>
+
+<!-- listar.component.html -->
+<div class="container">
+  <h2>Lista de Prácticas</h2>
+  
+  <button routerLink="/practicas/registrar">Nueva Práctica</button>
+
+  <!-- Loading -->
+  <div *ngIf="isLoading">
+    Cargando prácticas...
+  </div>
+
+  <!-- Error -->
+  <div *ngIf="errorMessage && !isLoading" style="color: red;">
+    {{ errorMessage }}
+    <button (click)="cargarPracticas()">Reintentar</button>
+  </div>
+
+  <!-- Tabla -->
+  <table *ngIf="!isLoading && !errorMessage">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Estudiante</th>
+        <th>Docente</th>
+        <th>Oferta</th>
+        <th>Fecha Inicio</th>
+        <th>Fecha Fin</th>
+        <th>Estado</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let practica of practicas">
+        <td>{{ practica.idPractica }}</td>
+        <td>ID: {{ practica.idEstudiante }}</td>
+        <td>ID: {{ practica.idDocente }}</td>
+        <td>{{ practica.idOfertaPractica }}</td>
+        <td>{{ formatearFecha(practica.fechaInicio) }}</td>
+        <td>{{ formatearFecha(practica.fechaFin) }}</td>
+        <td>{{ practica.estado }}</td>
+        <td>
+          <button (click)="editarPractica(practica)">Editar</button>
+          <button (click)="eliminarPractica(practica.idPractica)">Eliminar</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- Sin resultados -->
+  <div *ngIf="practicas.length === 0 && !isLoading" style="text-align: center;">
+    <p>No hay prácticas registradas</p>
+    <button routerLink="/practicas/registrar">Registrar Primera Práctica</button>
+  </div>
+</div>
