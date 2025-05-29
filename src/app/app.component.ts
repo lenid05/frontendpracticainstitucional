@@ -44,6 +44,22 @@ import { RouterOutlet, RouterLink } from '@angular/router';
               </ul>
             </li>
             
+              <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                Docentes
+              </a>
+              <ul class="dropdown-menu">
+                <li><a class="dropdown-item" routerLink="/docente/listar">Listar</a></li>
+              </ul>
+            </li>
+          <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                Usuarios
+              </a>
+              <ul class="dropdown-menu">
+                <li><a class="dropdown-item" routerLink="usuario/listar">Listar</a></li>
+              </ul>
+            </li>
           </ul>
         </div>
       </div>

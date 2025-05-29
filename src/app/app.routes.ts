@@ -1,11 +1,15 @@
 // src/app/app.routes.ts
 import { Routes } from '@angular/router';
-import { UsuariosComponent } from './components/usuarios/listarusuario/usuarios.component';
+import {UsuariosComponent } from './components/usuarios/listarusuario/usuarios.component';
 import { EstudianteRegistroComponent } from './components/estudiante/registrar/registrarestudiante.component';
 import { ListarestudianteComponent } from './components/estudiante/listar/listarestudiante.component';
 import { ActualizarEstudianteComponent } from './components/estudiante/actualizar/actualizarestudiante.component';
 import { EliminarComponent } from './components/estudiante/eliminar/eliminar.component';
-
+import { RegistrarDocente } from './components/docente/registrar/registrar.component';
+import { actualizarDocente } from './components/docente/actualizar/actualizar.component';
+import { ListarDocenteComponent } from './components/docente/listar/listar.component';
+import { RegistrarusuariosComponent } from './components/usuarios/registrarusuario/registrarusuarios.component';
+import { ActualizarusuariosComponent} from './components/usuarios/actualizarusuario/actualizarusuarios.component';
 export const routes: Routes = [
   // Rutas para Prácticas 
   {
@@ -43,14 +47,21 @@ export const routes: Routes = [
     path: 'ofertas/eliminar/:id',
     loadComponent: () => import('./components/ofertapractica/eliminar/eliminar.component').then(m => m.EliminarOfertaComponent)
   },
-
-
+  
   // Ruta por defecto
-  //{ path: '', redirectTo: '/practicas/listar', pathMatch: 'full' },
- // { path: '**', redirectTo: '/practicas/listar' },
-  { path: 'usuario', component: UsuariosComponent },
+ // //{ path: '', redirectTo: '/practicas/listar', pathMatch: 'full' },
+ //// { path: '**', redirectTo: '/practicas/listar' },,
+  
   { path: 'estudiante', component: EstudianteRegistroComponent },
   { path: 'listarestudiante', component: ListarestudianteComponent },
   { path: 'actualizar-estudiante/:id', component: ActualizarEstudianteComponent },
   { path: 'eliminar-estudiante/:id', component: EliminarComponent},
+  {path: 'docente/registrar', component: RegistrarDocente},
+  {path: 'docente/actualizar/:id', component: actualizarDocente},
+  {path: 'docente/listar', component: ListarDocenteComponent},
+  {path: 'usuario/registrar', component: RegistrarusuariosComponent},
+  {path: 'usuario/actualizar/:id', component: ActualizarusuariosComponent},
+  { path: 'usuario/listar', component: UsuariosComponent },
+  //{path: 'usuario/eliminar', component: EliminarUsuariosComponent},
+ 
 ];

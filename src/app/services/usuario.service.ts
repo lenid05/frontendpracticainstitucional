@@ -1,5 +1,9 @@
+// src/app/services/usuarios.service.ts
+
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+import { Usuarios} from '../interfaces/usuarios.interface'
 
 @Injectable({
   providedIn: 'root'
@@ -9,23 +13,23 @@ export class UsuariosService {
 
   constructor(private http: HttpClient) {}
 
-  getAll() {
-    return this.http.get(this.API_URL);
+  getAll(): Observable<Usuarios[]> {
+    return this.http.get<Usuarios[]>(this.API_URL);
   }
 
-  getById(id: number) {
-    return this.http.get(`${this.API_URL}/${id}`);
+  getById(id: number): Observable<Usuarios> {
+    return this.http.get<Usuarios>(`${this.API_URL}/${id}`);
   }
 
-  create(data: any) {
-    return this.http.post(this.API_URL, data);
+  create(data: Usuarios): Observable<Usuarios> {
+    return this.http.post<Usuarios>(this.API_URL, data);
   }
 
-  update(id: number, data: any) {
-    return this.http.put(`${this.API_URL}/${id}`, data);
+  update(id: number, data: Usuarios): Observable<Usuarios> {
+    return this.http.put<Usuarios>(`${this.API_URL}/${id}`, data);
   }
 
-  delete(id: number) {
-    return this.http.delete(`${this.API_URL}/${id}`);
+  delete(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.API_URL}/${id}`);
   }
 }
