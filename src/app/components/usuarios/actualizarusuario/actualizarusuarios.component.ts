@@ -20,13 +20,13 @@ export class ActualizarusuariosComponent implements OnInit {
   constructor(private fb: FormBuilder, private http: HttpClient, private usuarioService: UsuariosService, private route: ActivatedRoute,
     private router: Router) {
     this.usuarioForm = this.fb.group({
-      idUsuario: ['', Validators.required],
-      primerNombre: ['', Validators.required],
+      idUsuario: [''],
+      primerNombre: [''],
       segundoNombre: [''],
-      primerApellido: ['', Validators.required],
+      primerApellido: [''],
       segundoApellido: [''],
-      correo: ['', Validators.required],
-      contraseña: ['', Validators.required]
+      correo: [''],
+      contraseña: ['']
     });
   }
 
@@ -51,10 +51,10 @@ export class ActualizarusuariosComponent implements OnInit {
   }
     onSubmit(): void {
       if(this.usuarioForm.valid) {
-      this.http.put(`http://localhost:3000/api/usuarios/${this.usuarioForm.value.id}`, this.usuarioForm.value)
+      this.http.put(`http://localhost:3000/api/usuarios/${this.UsuarioId}`, this.usuarioForm.value)
         .subscribe({
           next: () => {
-            this.mensaje = 'suaurio actualizado con éxito';
+            this.mensaje = 'usuario actualizado con éxito';
             this.usuarioForm.reset();
           },
           error: () => {
