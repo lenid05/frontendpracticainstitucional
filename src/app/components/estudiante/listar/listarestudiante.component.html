@@ -31,45 +31,17 @@
     <div class="card-body">
       <div class="row align-items-center">
         <div class="col-md-8">
-          <div class="input-group">
-            <input type="text" class="form-control form-control-lg"
-              placeholder="Buscar por nombre, código, programa o correo..." [value]="terminoBusqueda()"
-              (input)="onBusquedaChange($any($event.target).value)"
-              style="border-radius: 25px 0 0 25px; border: 2px solid #e9ecef;">
-            <button class="btn btn-primary btn-lg px-4" type="button" (click)="buscarEstudiante()"
-              style="border-radius: 0 25px 25px 0; background: linear-gradient(45deg, #007bff, #0056b3); border: 2px solid #007bff;">
-              <i class="fas fa-search me-1"></i>
-              Buscar
-            </button>
-          </div>
+          
         </div>
         <div class="col-md-4 text-end">
-          <a [routerLink]="['/', 'estudiante']" class="btn btn-success btn-lg px-4 text-decoration-none"
+          <a [routerLink]="['/', 'estudiante']" class="btn btn-success btn-sm text-decoration-none"
             style="border-radius: 25px; background: linear-gradient(45deg, #007bff, #0056b3); border: 2px solid #007bff;">
             <i class="fas fa-plus me-2"></i>
             Estudiante Nuevo
           </a>
         </div>
       </div>
-
-      <!-- Información de búsqueda y contadores -->
-      <div class="row mt-3">
-        <div class="col-md-8">
-          @if (terminoBusqueda()) {
-          <button class="btn btn-outline-secondary btn-sm me-2" (click)="limpiarBusqueda()">
-            <i class="fas fa-times me-1"></i>
-            Limpiar búsqueda
-          </button>
-          <span class="text-muted">
-            Mostrando {{ totalFiltrados }} de {{ totalEstudiantes }} estudiantes
-          </span>
-          } @else {
-          <span class="text-muted">
-            Total: {{ totalEstudiantes }} estudiantes registrados
-          </span>
-          }
-        </div>
-      </div>
+    
     </div>
   </div>
 
@@ -161,10 +133,11 @@
         <i class="fas fa-users fa-3x text-muted mb-3"></i>
         <h5 class="text-muted">No hay estudiantes registrados</h5>
         <p class="text-muted">Comienza agregando tu primer estudiante</p>
-        <button class="btn btn-success btn-lg" (click)="agregarNuevoEstudiante()">
+       
+          <a [routerLink]="['/', 'estudiante']" class="btn btn-success btn-sm text-decoration-none">
           <i class="fas fa-plus me-2"></i>
           Agregar Primer Estudiante
-        </button>
+          </a>
       </div>
       }
       }

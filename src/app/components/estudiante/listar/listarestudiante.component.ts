@@ -209,7 +209,7 @@ export class ListarestudianteComponent implements OnInit {
       this.estudianteService.delete(estudiante.idEstudiante).subscribe({
         next: () => {
         alert('Estudiante eliminado exitosamente');
-        this.cargarEstudiantes(); // Recargar la lista
+        window.location.reload(); // Recargar la lista
         },
         error: (error) => {
           console.error('Error al eliminar estudiante:', error);

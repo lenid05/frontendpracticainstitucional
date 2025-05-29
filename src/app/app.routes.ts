@@ -7,7 +7,7 @@ import { ActualizarEstudianteComponent } from './components/estudiante/actualiza
 import { EliminarComponent } from './components/estudiante/eliminar/eliminar.component';
 
 export const routes: Routes = [
-  // Rutas para Prácticas
+  // Rutas para Prácticas 
   {
     path: 'practicas/registrar',
     loadComponent: () => import('./components/practica/registrar/registrar.component').then(m => m.RegistrarComponent)
@@ -46,8 +46,8 @@ export const routes: Routes = [
 
 
   // Ruta por defecto
-  { path: '', redirectTo: '/practicas/listar', pathMatch: 'full' },
-  { path: '**', redirectTo: '/practicas/listar' }
+  //{ path: '', redirectTo: '/practicas/listar', pathMatch: 'full' },
+ // { path: '**', redirectTo: '/practicas/listar' },
   { path: 'usuario', component: UsuariosComponent },
   { path: 'estudiante', component: EstudianteRegistroComponent },
   { path: 'listarestudiante', component: ListarestudianteComponent },
