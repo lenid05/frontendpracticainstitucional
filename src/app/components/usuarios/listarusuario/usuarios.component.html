@@ -1,7 +1,50 @@
-<h2>Lista de Usuarios</h2>
-<ul>
-  <li *ngFor="let usuario of usuarios">
-    {{ usuario.primerNombre }} - {{ usuario.correo }}
-  </li> 
-</ul>
+<div class="container">
+  <h2>Lista de usuarios</h2>
 
+  <button routerLink="/usuario/registrar">Nuevo Usuario</button>
+
+
+  <div *ngIf="isLoading">
+    Cargando...
+  </div>
+
+
+  <div *ngIf="errorMessage && !isLoading" style="color: red;">
+    {{ errorMessage }}
+    <button (click)="cargarUsuarios()">Reintentar</button>
+  </div>
+
+
+  <table *ngIf="!isLoading && !errorMessage && usuarios.length > 0" class="table">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Primer Nombre</th>
+        <th>Segundo Nombre</th>
+        <th>Primer Apellido</th>
+        <th>Segundo Apellido</th>
+        <th>Correo</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let usuario of usuarios">
+        <td>{{ usuario.idUsuario }}</td>
+        <td>{{ usuario.primerNombre }}</td>
+        <td>{{ usuario.segundoNombre }}</td>
+        <td>{{ usuario.primerApellido }}</td>
+        <td>{{ usuario.segundoApellido }}</td>
+        <td>{{ usuario.correo }}</td>
+        <td>
+          <button [routerLink]="['/usuario/actualizar', usuario.idUsuario]">Editar</button>
+          <button (click)="eliminarUsuario(usuario.idUsuario)">Eliminar</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+
+  <div *ngIf="usuarios.length === 0 && !isLoading" style="text-align: center;">
+    <p>No hay registros existentes</p>
+  </div>
+</div>

@@ -1,1 +1,47 @@
-<p>listar works!</p>
+<div class="container">
+  <h2>Lista de Docentes</h2>
+
+  <button routerLink="/docente/registrar">Nuevo Docente</button>
+
+  <!-- Loading -->
+  <div *ngIf="isLoading">
+    Cargando 
+  </div>
+
+  <!-- Error -->
+  <div *ngIf="errorMessage && !isLoading" style="color: red;">
+    {{ errorMessage }}
+    <button (click)="cargarDocente()">Reintentar</button>
+  </div>
+
+  <!-- Tabla de docentes -->
+  <table *ngIf="!isLoading && !errorMessage && docentes.length > 0">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Tipo Contrato</th>
+        <th>Salario</th>
+        <th>Id Usuario</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let docente of docentes">
+        <td>{{ docente.idDocente }}</td>
+        <td>{{ docente.tipoContratacion }}</td>
+        <td>{{ docente.salario }}</td>
+        <td>{{ docente.idUsuario }}</td>
+        <td>
+          <button [routerLink]="['/docente/actualizar', docente.idDocente ]" >Editar</button>
+          <button (click)="eliminarDocente(docente.idDocente)">Eliminar</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- Sin resultados -->
+  <div *ngIf="docentes.length === 0 && !isLoading" style="text-align: center;">
+    <p>No hay registros existentes</p>
+    
+  </div>
+</div>
